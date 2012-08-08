@@ -4,22 +4,22 @@
 if !ARGV.empty? then
 
 	filename = ARGV[0].split('.')[0];
-	puts "#{filename} wird uebersetzt und gebrant"
+	puts "--- #{ARGV[0]} wird uebersetzt und gebrant ---"
 
 
 	if system("avr-gcc -c -x assembler-with-cpp -mmcu=atmega8 #{ARGV[0]} -o #{filename}.o") then
-		puts "erfolgreich kompieliert"
+		puts "--- avr-gcc erfolgreich ---"
 	else
-		puts '\n ----------------------------------------------------------------- '
-		puts 'Fehler beim uebersetzen'
+		puts '\n ----E----E----E----E----E----E----'
+		puts ' FEHLER: beim uebersetzen'
 		return
 	end
 
 	if system("avr-ld #{filename}.o -o #{filename}.elf") and system("avr-objcopy -O ihex #{filename}.elf #{filename}.hex") then
-		puts 'linking succes'
+		puts '--- linken erfolgreich ---'
 	else
-		puts '\n ----------------------------------------------------------------- ' 
-		puts 'Fehler beim linken'
+		puts '\n ----E----E----E----E----E----E----'
+		puts ' FEHLER:  beim linken'
 		return
 	end
 
@@ -27,5 +27,6 @@ if !ARGV.empty? then
 
 
 else 
+	puts '\n ----E----E----E----E----E----E----'
 	puts "FEHLER:  kein Dateiname angegeben"
 end
